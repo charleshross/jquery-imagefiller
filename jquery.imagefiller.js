@@ -176,7 +176,7 @@
 						// Subtract pixels handed outo
 						new_gap = new_gap - bump;
 						
-						// there may be bugs here, this tries to compensate for a pixel issue we found
+						// Rest of bump added to last image in queue
 						if (new_gap < bump) {
 							
 							bump = new_gap;
