@@ -18,8 +18,9 @@ Make sure to run this quick checklist for best results:
 4. All images or div's with 'background-image' must contain the class 'img' or you can specify the class name as a property `image_class: '.name_of_your_class'`
 5. Make sure the original images you use for your thumbnails are all the same pixel height
 
-Sample Javascript:
+Sample Code:
 
+	<script type="text/javascript">
 	$(function() {
 		$('#container_id').imagefiller({
 			padding:10,				// padding between images
@@ -27,8 +28,7 @@ Sample Javascript:
 			image_class:'.image'	// the class on each <img>
 		});
 	});
-	
-Sample HTML:
+	<script>
 	
 	<div id='container_id'>
 		<img src='/path/to/img1' width='source_file_width' height='source_file_height' class='image' />";
