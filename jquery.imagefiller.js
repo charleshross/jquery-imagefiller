@@ -56,13 +56,24 @@
 		
 		// Getting First Image to perform 'nesting' detection
 		nested = false;
-		first = this.find(image_class+':first').parent().attr('id');
-		if (first != 'image_container') {
+		first = this.children(":first").parent().attr('id');
+		if (first != this.attr('id')) {
 			nested = true;
+		}
+		
+		// Detect if images are floating (if images aren't then this whole thing won't work)
+		is_floating = false;
+		if (this.children(":first").css('float') == 'left') {
+			is_floating = true;
 		}
 		
 		// 1st Round Loop through each IMG
 		$(image_class).each(function(index, Element) {
+			
+			// Force float left if no float:left
+			if (!is_floating) {
+				$(this).css('float','left');
+			}
 			
 			// Padding
 			if (padding > 0) {
@@ -92,6 +103,8 @@
 			} else {
 				next = $(this).nextAll(image_class);
 			}
+			
+			
 			
 			// Fetching next image's future new_width
 			next_width = next.width();
