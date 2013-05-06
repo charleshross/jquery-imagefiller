@@ -9,13 +9,18 @@ Allows you to evenly place images inside a container, just like 'Bing Images', '
 
 Usage
 -----------------------------
-I recommend using a 'row_height' that is ~30 pixels smaller then the actual height of the thumbnail images.
-All images or div's with 'background-image' must contain the class 'img' or you can specify the class name as a property image_class: 'name_of_your_class'
-Make sure all thumbnail images are the same height as well.
 
+Make sure to run this quick checklist for best results:
+1) I recommend using a 'row_height' that is at least 30 pixels smaller then the actual height of the thumbnail images so that images aren't upsized (will result in low quality thumbnail).
+2) Add "float:left" to your image's class otherwize the script will have to do it and it will eat up unnecessary CPU time on browsers that don't handle JS well.
+3) All images or div's with 'background-image' must contain the class 'img' or you can specify the class name as a property image_class: '.name_of_your_class'
+4) Make sure all thumbnail images are the same height as well.
+
+Sample code:
 	$('#id_to_your_container').imagefiller({
-		padding:10,
-		row_height:170
+		padding:10,				// padding between images
+		row_height:170,			// the starting height of images in a row
+		image_class:'.image'	// the class on each <img>
 	});
 
 Dependencies
