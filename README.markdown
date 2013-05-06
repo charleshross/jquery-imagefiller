@@ -17,7 +17,7 @@ Required steps:
 
 Best performance checklist:
 
-1. Make sure the source images all have the same height, this isn't required but it will help them look better in browsers that don't perform bicubic softening (only Chrome and Safari at the time of this writing support such image softening)
+1. Make sure the source images all have the same height, this isn't required but it will help them look better in browsers that don't perform bicubic softening (only Chrome and Safari at the time of this writing support such image softening, this type of softening keeps the images from looking jagged when re-sizing from a very large image)
 2. I recommend using a 'row_height' that is at least 30 pixels smaller then the actual height of the thumbnail images so that images aren't upsized (will result in low quality thumbnail)
 3. Add `float:left` to your `<img>` image's class otherwize the script will have to do it and it will eat up unnecessary CPU time on browsers that don't handle JS well
 
