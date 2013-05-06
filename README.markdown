@@ -18,6 +18,7 @@ Make sure to run this quick checklist for best results:
 4. Make sure all thumbnail images are the same height as well.
 
 Sample code:
+
 	$('#id_to_your_container').imagefiller({
 		padding:10,				// padding between images
 		row_height:170,			// the starting height of images in a row
