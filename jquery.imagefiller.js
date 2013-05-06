@@ -19,6 +19,8 @@
 			'row_height' : 100,
 			// Starting padding
 			'padding' : 0,
+			// Bottom padding
+			'padding_bottom' : 0,
 			// Class attached to image
 			'image_class' : '.img'
 		}, options);
@@ -160,11 +162,18 @@
 					
 					// Everyone but final row gets this bottom margin
 					if (padding > 0) {
+						
+						if (settings.padding_bottom > 0) {
+							padding_bottom = settings.padding_bottom;
+						} else {
+							padding_bottom = padding;
+						}
+						
 						if (nested) {
-							$(this).parent().css('margin-bottom',padding+'px');
+							$(this).parent().css('margin-bottom',padding_bottom+'px');
 						
 						} else {
-							$(this).css('margin-bottom',padding+'px');
+							$(this).css('margin-bottom',padding_bottom+'px');
 						}
 					}
 					
