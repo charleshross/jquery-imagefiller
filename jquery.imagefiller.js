@@ -56,7 +56,7 @@
 		
 		// Getting First Image to perform 'nesting' detection
 		nested = false;
-		first = this.children(":first").parent().attr('id');
+		first = this.find("img:first").parent().attr('id');
 		if (first != this.attr('id')) {
 			nested = true;
 		}
@@ -77,7 +77,16 @@
 			
 			// Padding
 			if (padding > 0) {
-				$(this).css('padding-right',padding+'px');
+				
+				// Apply spacing to img container div
+				if (nested) {
+					$(this).parent().css('margin-right',padding+'px');
+				
+				// Apply spacing directly to img
+				} else {
+					$(this).css('margin-right',padding+'px');
+				}
+				
 			}
 			
 			// Push this image into row
@@ -96,6 +105,11 @@
 			// Adjusting Image to first computed row_height adjusted width/height (later we'll fill the gap if there is one)
 			$(this).width(new_width).height(row_height);
 			
+			// same to parent div (container should have same width)
+			if (nested) {
+				$(this).parent().width(new_width);
+			}
+			
 			// Fetch first computed width of next image (allows us to see if it spills over canvas edge)
 			// Check if next image is right nextdoor or if we have to travel up and over (nested = true)
 			if (nested) {
@@ -103,8 +117,6 @@
 			} else {
 				next = $(this).nextAll(image_class);
 			}
-			
-			
 			
 			// Fetching next image's future new_width
 			next_width = next.width();
@@ -124,8 +136,10 @@
 			if (next_current_row < 1) {
 				
 				// Remove padding from last image in row
-				if (padding > 0) {
-					$(this).css('padding-right',0);
+				if (nested) {
+					$(this).parent().css('margin-right',0);
+				} else {
+					$(this).css('margin-right',0);
 				}
 				
 				current_row = current_row + padding;
@@ -144,9 +158,14 @@
 				// 2nd Round Loop through images in locked row to perform expansion
 				$.each(images, function(key,valueObj){
 					
-					// Keeps last row from getting bottom padding
+					// Everyone but final row gets this bottom margin
 					if (padding > 0) {
-						$(this).css('padding-bottom',padding+'px');
+						if (nested) {
+							$(this).parent().css('margin-bottom',padding+'px');
+						
+						} else {
+							$(this).css('margin-bottom',padding+'px');
+						}
 					}
 					
 					// Fetch Width/Height of images (aspect ratios based on initial row_height)
@@ -160,6 +179,11 @@
 					// Applying second round of row_height & new_width
 					$(this).width(new_final_width);
 					$(this).height(new_row_height);
+					
+					// same to parent div (container should have same width)
+					if (nested) {
+						$(this).parent().width(new_final_width);
+					}
 					
 					// Space taken up in 2nd round of adjustments so far
 					placed_width = placed_width + new_final_width + padding;
@@ -185,6 +209,11 @@
 						// Hand image extra pixel(s)
 						adjust_width = width + bump;
 						$(this).width(adjust_width);
+						
+						// same to parent div (container should have same width)
+						if (nested) {
+							$(this).parent().width(adjust_width);
+						}
 						
 						// Subtract pixels handed outo
 						new_gap = new_gap - bump;
