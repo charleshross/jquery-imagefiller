@@ -23,7 +23,8 @@ Sample Code:
 	<script type="text/javascript">
 	$(function() {
 		$('#container_id').imagefiller({
-			padding:10,				// padding between images
+			padding:10,				// Optional: padding between images
+			padding_bottom:20,		// Optional: for different bottom padding
 			row_height:170,			// the starting height of images in a row
 			image_class:'.image'	// the class on each <img>
 		});
