@@ -12,7 +12,7 @@ Usage
 
 Make sure to run this quick checklist for best results:
 
-1. Make sure your <img> elements includes width and height attributes that provide the original width/height (Example: `<img src='/path/to/img1' width='source_file_width' height='source_file_height' class='image' />`)
+1. Make sure your `<img>` elements includes width and height attributes that provide the original width/height (Example: `<img src='/path/to/img1' width='source_file_width' height='source_file_height' class='image' />`)
 2. I recommend using a 'row_height' that is at least 30 pixels smaller then the actual height of the thumbnail images so that images aren't upsized (will result in low quality thumbnail)
 3. Add "float:left" to your image's class otherwize the script will have to do it and it will eat up unnecessary CPU time on browsers that don't handle JS well
 4. All images or div's with 'background-image' must contain the class 'img' or you can specify the class name as a property image_class: '.name_of_your_class'
