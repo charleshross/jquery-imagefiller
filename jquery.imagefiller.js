@@ -24,7 +24,7 @@
 			// Class attached to image
 			'image_class' : '.img'
 		}, options);
-
+		
 		// div of img's
 		container = this;
 		
@@ -58,23 +58,59 @@
 		
 		// Getting First Image to perform 'nesting' detection
 		nested = false;
+		nest_n = 0;
+		
 		first = this.find("img:first").parent().attr('id');
+		
 		if (first != this.attr('id')) {
 			nested = true;
 		}
 		
-		// Detect if images are floating (if images aren't then this whole thing won't work)
-		is_floating = false;
-		if (this.children(":first").css('float') == 'left') {
-			is_floating = true;
+		// Location true active container in nest (since user isn't just using <img>'s then we need to find out its top container)
+		nest_level = this.find("img:first");
+		nest_test = nest_level.attr('id');
+		
+		while(nest_n < 20) {
+			
+			nest_level_next = nest_level.parent();
+			nest_level_next_test = nest_level_next.attr('id');
+			
+			if (nest_level_next_test == this.attr('id')) {
+				
+				nest_class = nest_level.attr('class');
+				nest_container = '.' + nest_class;
+				
+				break;
+				
+			}
+			
+			nest_level = nest_level.parent();
+			nest_test = nest_level.attr('id');
+			
+			nest_n++;
+			
 		}
+		
+		// Detect if images are display inline-block (if images aren't then this whole thing won't work)
+		is_inline = false;
+		if (this.children(":first").css('display') == 'inline-block') {
+			is_inline = true;
+		}		
 		
 		// 1st Round Loop through each IMG
 		$(image_class).each(function(index, Element) {
 			
-			// Force float left if no float:left
-			if (!is_floating) {
-				$(this).css('float','left');
+			// if inline block not set, then set here
+			if (!is_inline) {
+				
+				if (nested) {
+					
+					$(this).parents(nest_container).css('display','inline-block');
+				
+				} else {
+					$(this).css('display','inline-block');
+				}	
+				
 			}
 			
 			// Padding
@@ -82,7 +118,10 @@
 				
 				// Apply spacing to img container div
 				if (nested) {
-					$(this).parent().css('margin-right',padding+'px');
+					
+					// Applying margin
+					margin_right = padding;
+					$(this).parents(nest_container).css('margin-right',margin_right+'px');
 				
 				// Apply spacing directly to img
 				} else {
@@ -90,7 +129,7 @@
 				}
 				
 			}
-			
+				
 			// Push this image into row
 			images = images.add($(this));
 			
@@ -109,13 +148,13 @@
 			
 			// same to parent div (container should have same width)
 			if (nested) {
-				$(this).parent().width(new_width);
+				$(this).parents(nest_container).width(new_width);
 			}
 			
 			// Fetch first computed width of next image (allows us to see if it spills over canvas edge)
 			// Check if next image is right nextdoor or if we have to travel up and over (nested = true)
 			if (nested) {
-				next = $(this).parent().next().find(image_class);
+				next = $(this).parents(nest_container).next().find(image_class);
 			} else {
 				next = $(this).nextAll(image_class);
 			}
@@ -139,7 +178,7 @@
 				
 				// Remove padding from last image in row
 				if (nested) {
-					$(this).parent().css('margin-right',0);
+					$(this).parents(nest_container).css('margin-right',0);
 				} else {
 					$(this).css('margin-right',0);
 				}
@@ -170,12 +209,19 @@
 						}
 						
 						if (nested) {
-							$(this).parent().css('margin-bottom',padding_bottom+'px');
-						
+							$(this).parents(nest_container).css('margin-bottom',padding_bottom+'px');
+							
+							// specific hardcoded item
+							$(this).parents(nest_container).find('.file_label').css('width','auto');
+							
 						} else {
 							$(this).css('margin-bottom',padding_bottom+'px');
+							
 						}
 					}
+					
+					// set image class to completed
+					$(this).removeClass('image').addClass('image_complete');
 					
 					// Fetch Width/Height of images (aspect ratios based on initial row_height)
 					width = $(this).width();
@@ -191,7 +237,7 @@
 					
 					// same to parent div (container should have same width)
 					if (nested) {
-						$(this).parent().width(new_final_width);
+						$(this).parents(nest_container).width(new_final_width);
 					}
 					
 					// Space taken up in 2nd round of adjustments so far
@@ -221,7 +267,10 @@
 						
 						// same to parent div (container should have same width)
 						if (nested) {
-							$(this).parent().width(adjust_width);
+							$(this).parents(nest_container).width(adjust_width);
+							
+							// harcoded 
+							$(this).find('.file_label').css('width','auto');
 						}
 						
 						// Subtract pixels handed outo
@@ -251,8 +300,6 @@
 			}
 			
 		});
-
-
 		
 	};
 })( jQuery );
